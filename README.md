@@ -54,3 +54,7 @@
 -----------------------------------
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+
+链接
+-----------------------------------
+1.[https://github.com/xmagicj/LazyFragment](https://github.com/xmagicj/LazyFragment)<br />
