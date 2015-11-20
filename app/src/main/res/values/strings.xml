@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">LazyFragment</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="laoyao">老妖</string>
+    <string name="laowang">老王</string>
+    <string name="laoliu">老柳</string>
+    <string name="laoguo">老郭</string>
+    <string name="laochen">老陈</string>
+    <string name="laorao">老饶</string>
+
+</resources>
