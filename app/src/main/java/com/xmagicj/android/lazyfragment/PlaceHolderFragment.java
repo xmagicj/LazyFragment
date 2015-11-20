@@ -1,11 +1,13 @@
 package com.xmagicj.android.lazyfragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -13,6 +15,7 @@ import android.widget.TextView;
  * on 2015/11/20.
  */
 public class PlaceHolderFragment extends BaseFragment {
+    Handler handler = new Handler();
     ProgressBar progressBar;
     TextView textView;
     /**
@@ -20,6 +23,7 @@ public class PlaceHolderFragment extends BaseFragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int DELAY_TIME = 2000;
 
     public PlaceHolderFragment() {
     }
@@ -47,8 +51,13 @@ public class PlaceHolderFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        progressBar.setVisibility(View.GONE);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                progressBar.setVisibility(View.GONE);
+            }
+        }, DELAY_TIME);
     }
 
     @Override
