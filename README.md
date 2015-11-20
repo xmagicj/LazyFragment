@@ -1,5 +1,6 @@
 # LazyFragment
-### 解决问题: 
+解决问题: 
+-----------------------------------
     在多个Fragment需要加载的时候,启动速度往往会变慢.分析会发现并非所有的Fragment都需要第一时间将数据填充完毕.
     因为它们都还没有被用户所"看见".
     所以可以采取LazyLoad的方式,Fragment被显示后才加载数据.
@@ -8,10 +9,12 @@
     Toolbar + ViewPager + Fragment
 ![github](https://github.com/xmagicj/LazyFragment/blob/master/demo.gif "demo")  
 
-### 使用说明: 
+使用说明: 
+-----------------------------------
 * extends BaseFragment<br />
-    其他生命周期的方法需要重写 就自己overwrite
-> 两个方法重点说明:
+    其他生命周期的方法需要重写 就自己overwrite<br />
+
+### 两个方法重点说明:
 * protected abstract View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);<br />
     与 onCreateView 类似.<br />
     initViews 是只要 Fragment 被创建就会执行的方法.<br />
@@ -21,7 +24,8 @@
 * protected abstract void initData();<br />
     若将代码写在initData中,则是会在Fragment真正显示出来后才会去加载.
 
-### 注意事项:
+注意事项:
+-----------------------------------
     sample很简单.代码注释也写的很清楚
     有个FragmentTransaction的坑,在BaseFragment文件注释中有说明(注2部分)
     这里还是贴出来吧
@@ -46,6 +50,7 @@
      * </pre>
      */
 
-### 依赖
+依赖
+-----------------------------------
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
