@@ -3,13 +3,9 @@ package com.xmagicj.android.lazyfragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <pre>
@@ -92,7 +88,7 @@ public abstract class BaseFragment extends Fragment {
      * 若是初始就show的Fragment 为了触发该事件 需要先hide再show
      *
      * @param hidden hidden True if the fragment is now hidden, false if it is not
-     * visible.
+     *               visible.
      */
     @Override
     public void onHiddenChanged(boolean hidden) {
