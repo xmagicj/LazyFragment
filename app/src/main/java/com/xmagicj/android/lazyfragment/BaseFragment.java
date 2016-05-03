@@ -40,8 +40,10 @@ public abstract class BaseFragment extends Fragment {
      * 标志位，View已经初始化完成。
      * 2016/04/29
      * 用isAdded()属性代替
+     * 2016/05/03
+     * isPrepared还是准一些,isAdded有可能出现onCreateView没走完但是isAdded了
      */
-    //private boolean isPrepared;
+    private boolean isPrepared;
     /**
      * 是否第一次加载
      */
@@ -61,7 +63,7 @@ public abstract class BaseFragment extends Fragment {
         // 如果这里有数据累加的Bug 请在initViews方法里初始化您的数据 比如 list.clear();
         isFirstLoad = true;
         View view = initViews(inflater, container, savedInstanceState);
-        //isPrepared = true; 用isAdded()代替
+        isPrepared = true;
         lazyLoad();
         return view;
     }
@@ -114,8 +116,8 @@ public abstract class BaseFragment extends Fragment {
      * isPrepared = true;
      */
     protected void lazyLoad() {
-        //if (!isPrepared || !isVisible || !isFirstLoad) {
-        if (!isAdded() || !isVisible || !isFirstLoad) {
+        if (!isPrepared || !isVisible || !isFirstLoad) {
+        //if (!isAdded() || !isVisible || !isFirstLoad) {
             return;
         }
         isFirstLoad = false;
