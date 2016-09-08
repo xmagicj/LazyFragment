@@ -1,4 +1,4 @@
-# LazyFragment
+# LazyFragment [![Build Status](https://travis-ci.org/xmagicj/LazyFragment.svg?branch=master)](https://travis-ci.org/xmagicj/LazyFragment)
 类似案例: 
 -----------------------------------
 微信
