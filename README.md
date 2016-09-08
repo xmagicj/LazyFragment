@@ -22,14 +22,14 @@
     其他生命周期的方法需要重写 就自己overwrite<br />
 
 ### 两个方法重点说明:
-* protected abstract View **initViews**(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);<br />
-    与 onCreateView 类似.<br />
+* **initViews**(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);<br />
+    抽象方法<br />与 onCreateView 类似.<br />
     initViews 是只要 Fragment 被创建就会执行的方法.<br />
     也就是说如果我们不想用 LazyLoad 模式<br />
     则把所有的初始化 和 加载数据方法都写在 initViews 即可.
 
-* protected abstract void **initData()**;<br />
-    若将代码写在initData中,则是在Fragment真正显示出来后才会去Load.
+* **initData()**;<br />
+    抽象方法<br />若将代码写在initData中,则是在Fragment真正显示出来后才会去Load(懒加载).
 
 注意事项:
 -----------------------------------
