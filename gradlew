@@ -42,6 +42,11 @@ case "`uname`" in
     ;;
 esac
 
+# For Cygwin, ensure paths are in UNIX format before anything is touched.
+if $cygwin ; then
+    [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+fi
+
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
