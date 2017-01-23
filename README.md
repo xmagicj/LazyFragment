@@ -18,10 +18,10 @@
 
 解决问题 2:
 -----------------------------------
-     ViewPager + PagerAdapter需要刷新所有子Fragment的场景
-     不要new 新的 PagerAdapter 而采取reset数据的方式
-     所以要求Fragment重新走initData方法
-     具体参见代码示例 
+    ViewPager + PagerAdapter需要刷新所有子Fragment的场景.
+    不要new 新的 PagerAdapter 而采取reset数据的方式.
+    所以要求Fragment重新走initData方法.
+    具体参见代码示例
 ![github](https://github.com/xmagicj/LazyFragment/blob/master/demo2.gif "demo2")  
 
 使用说明: 
