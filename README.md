@@ -21,7 +21,8 @@
     ViewPager + PagerAdapter需要刷新所有子Fragment的场景.
     不要new 新的 PagerAdapter 而采取reset数据的方式.
     所以要求Fragment重新走initData方法.
-    具体参见代码示例
+    具体参见代码示例 
+    **搜索关键词 setForceLoad / refreshAllFragment / refreshData 即可找到关键代码~**
 ![github](https://github.com/xmagicj/LazyFragment/blob/master/demo2.gif "demo2")  
 
 使用说明: 
