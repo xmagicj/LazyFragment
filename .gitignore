@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gradle/
+.idea/
+LazyFragment.iml
+app/app.iml
+app/build/
+build/
+local.properties

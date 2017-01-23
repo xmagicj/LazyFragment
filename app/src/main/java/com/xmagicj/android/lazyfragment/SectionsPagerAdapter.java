@@ -1,53 +1,65 @@
 package com.xmagicj.android.lazyfragment;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
- * one of the sections/tabs/pages.
  * Created by Mumu
  * on 2015/11/20.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    Context mContext;
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    private List<PlaceHolderFragment> fragmentList = new ArrayList<>();
 
-    public SectionsPagerAdapter(FragmentManager fm, Context context) {
+    public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
-        mContext = context;
+    }
+
+    public void init(List<InfoEntity> list) {
+        fragmentList.clear();
+        for (InfoEntity info : list) {
+            fragmentList.add(PlaceHolderFragment.newInstance(info));
+        }
+    }
+
+    public void refreshAllFragment(List<InfoEntity> list) {
+        for (InfoEntity info : list) {
+            for (PlaceHolderFragment fragment : fragmentList) {
+                //最好使用唯一标示来判定是否刷了正确的Fragment 比如id
+                String pageTitle = fragment.getTitle();
+                if (pageTitle != null && pageTitle.equals(info.getTitle())) {
+                    fragment.refreshData(info);
+                }
+            }
+        }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceHolderFragment.newInstance(position + 1);
+        if (fragmentList != null && position < fragmentList.size()) {
+            return fragmentList.get(position);
+        }
+        return null;
     }
 
     @Override
     public int getCount() {
-        // Show 6 total pages.
-        return 6;
+        return fragmentList.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return mContext.getResources().getString(R.string.laoyao);
-            case 1:
-                return mContext.getResources().getString(R.string.laowang);
-            case 2:
-                return mContext.getResources().getString(R.string.laoliu);
-            case 3:
-                return mContext.getResources().getString(R.string.laochen);
-            case 4:
-                return mContext.getResources().getString(R.string.laoguo);
-            case 5:
-                return mContext.getResources().getString(R.string.laorao);
+        if (getItem(position) instanceof BaseFragment) {
+            return ((BaseFragment) getItem(position)).getTitle();
         }
-        return null;
+        return super.getPageTitle(position);
     }
 }

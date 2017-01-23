@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LazyFragment</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="action_settings">Change Data</string>
+    <string name="section_format">Show Data : %1$s</string>
     <string name="laoyao">老妖</string>
     <string name="laowang">老王</string>
     <string name="laoliu">老柳</string>

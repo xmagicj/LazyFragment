@@ -1,6 +1,7 @@
 package com.xmagicj.android.lazyfragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +24,13 @@ import android.view.ViewGroup;
  * transaction.hide(aFragment);
  * transaction.show(aFragment);
  *
+ * update 2017/01/23
+ * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+ * 一般用于PagerAdapter需要同时刷新全部子Fragment的场景
+ * 不要new 新的 PagerAdapter 而采取reset数据的方式
+ * 所以要求Fragment重新走initData方法
+ * 故使用 {@link BaseFragment#setForceLoad(boolean)}来让Fragment下次执行initData
+ *
  * Created by Mumu
  * on 2015/11/2.
  * </pre>
@@ -33,9 +41,9 @@ public abstract class BaseFragment extends Fragment {
      */
     public String fragmentTitle;
     /**
-     * 是否可见状态
+     * 是否可见状态 为了避免和{@link Fragment#isVisible()}冲突 换个名字
      */
-    private boolean isVisible;
+    private boolean isFragmentVisible;
     /**
      * 标志位，View已经初始化完成。
      * 2016/04/29
@@ -48,7 +56,25 @@ public abstract class BaseFragment extends Fragment {
      * 是否第一次加载
      */
     private boolean isFirstLoad = true;
+    /**
+     * <pre>
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     * 一般用于PagerAdapter需要刷新各个子Fragment的场景
+     * 不要new 新的 PagerAdapter 而采取reset数据的方式
+     * 所以要求Fragment重新走initData方法
+     * 故使用 {@link BaseFragment#setForceLoad(boolean)}来让Fragment下次执行initData
+     * </pre>
+     */
+    private boolean forceLoad = false;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.size() > 0) {
+            initVariables(bundle);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,10 +103,8 @@ public abstract class BaseFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (getUserVisibleHint()) {
-            isVisible = true;
             onVisible();
         } else {
-            isVisible = false;
             onInvisible();
         }
     }
@@ -90,25 +114,25 @@ public abstract class BaseFragment extends Fragment {
      * 若是初始就show的Fragment 为了触发该事件 需要先hide再show
      *
      * @param hidden hidden True if the fragment is now hidden, false if it is not
-     *               visible.
+     * visible.
      */
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            isVisible = true;
             onVisible();
         } else {
-            isVisible = false;
             onInvisible();
         }
     }
 
     protected void onVisible() {
+        isFragmentVisible = true;
         lazyLoad();
     }
 
     protected void onInvisible() {
+        isFragmentVisible = false;
     }
 
     /**
@@ -116,17 +140,53 @@ public abstract class BaseFragment extends Fragment {
      * isPrepared = true;
      */
     protected void lazyLoad() {
-        if (!isPrepared || !isVisible || !isFirstLoad) {
-        //if (!isAdded() || !isVisible || !isFirstLoad) {
-            return;
+        if (isPrepared() && isFragmentVisible()) {
+            if (forceLoad || isFirstLoad()) {
+                forceLoad = false;
+                isFirstLoad = false;
+                initData();
+            }
         }
-        isFirstLoad = false;
-        initData();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isPrepared = false;
+    }
+
+    /**
+     * 被ViewPager移出的Fragment 下次显示时会从getArguments()中重新获取数据
+     * 所以若需要刷新被移除Fragment内的数据需要重新put数据 eg:
+     * Bundle args = getArguments();
+     * if (args != null) {
+     * args.putParcelable(KEY, info);
+     * }
+     */
+    public void initVariables(Bundle bundle) {}
 
     protected abstract View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     protected abstract void initData();
+
+    public boolean isPrepared() {
+        return isPrepared;
+    }
+
+    /**
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     */
+    public void setForceLoad(boolean forceLoad) {
+        this.forceLoad = forceLoad;
+    }
+
+    public boolean isFirstLoad() {
+        return isFirstLoad;
+    }
+
+    public boolean isFragmentVisible() {
+        return isFragmentVisible;
+    }
 
     public String getTitle() {
         if (null == fragmentTitle) {
