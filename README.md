@@ -27,26 +27,26 @@
 
 使用说明: 
 -----------------------------------
-* extends BaseFragment<br />
-    其他生命周期的方法需要重写 就自己overwrite<br />
+* extends BaseFragment<br/>
+    其他生命周期的方法需要重写 就自己overwrite<br/>
 
 ### 三个方法重点说明:
-* **initViews();** <br />
-    抽象方法<br />与 onCreateView 类似.<br />
-    initViews 是只要 Fragment 被创建就会执行的方法.<br />
-    也就是说如果我们不想用 LazyLoad 模式<br />
+* **initViews();** <br/>
+    抽象方法<br/>与 onCreateView 类似.<br/>
+    initViews 是只要 Fragment 被创建就会执行的方法.<br/>
+    也就是说如果我们不想用 LazyLoad 模式<br/>
     则把所有的初始化 和 加载数据方法都写在 initViews 即可.
 
-* **initData();** <br />
-    抽象方法<br />若将代码写在initData中,则是在Fragment真正显示出来后才会去Load(懒加载).<br />
+* **initData();** <br/>
+    抽象方法<br/>若将代码写在initData中,则是在Fragment真正显示出来后才会去Load(懒加载).<br/>
     
-* **setForceLoad();** <br />
-   忽略isFirstLoad的值，强制刷新数据，前提是Visible & Prepared.<br />
-   未Visible & Prepared的页面需要注意在RefreshData的时候视图为空的问题,具体请参见实例代码<br />
-   搜索关键词 <br />
-   setForceLoad / refreshAllFragment / refreshData 即可找到关键代码
+* **setForceLoad();** <br/>
+    忽略isFirstLoad的值，强制刷新数据，前提是Visible & Prepared.<br/>
+    未Visible & Prepared的页面需要注意在RefreshData的时候视图为空的问题,具体请参见实例代码<br/>
+    搜索关键词 <br/>
+    setForceLoad / refreshAllFragment / refreshData 即可找到关键代码
     
-    
+
 ### 注意事项(一定要看完):
 -----------------------------------
     有个FragmentTransaction的坑,在BaseFragment文件注释中有说明(注2部分)
