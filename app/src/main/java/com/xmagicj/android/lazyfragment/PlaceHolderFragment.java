@@ -3,6 +3,7 @@ package com.xmagicj.android.lazyfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,10 @@ public class PlaceHolderFragment extends BaseFragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (!isPrepared()) {
+                    Log.w("initData", "目标已被回收");
+                    return;
+                }
                 if (!TextUtils.isEmpty(info.getShowNumber())) {
                     textView.setVisibility(View.VISIBLE);
                     textView.setText(info.getTitle() + "\n" + getString(R.string.section_format, info.getShowNumber
