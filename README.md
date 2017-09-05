@@ -6,7 +6,7 @@
 
 解决问题 1: 
 -----------------------------------
-    在多个Fragment需要加载的时候,启动速度往往会变慢.
+    在多个Fragment需要加载的时候, 启动速度往往会变慢.
     分析会发现并非所有的Fragment都需要第一时间将数据填充完毕.
     因为它们都还没有被用户所"看见".
     所以我们要达到的效果是Fragment被显示后才加载数据(lazy load).
@@ -38,11 +38,11 @@
     则把所有的初始化 和 加载数据方法都写在 initViews 即可.
 
 * **initData();** <br/>
-    抽象方法<br/>若将代码写在initData中,则是在Fragment真正显示出来后才会去Load(懒加载).<br/>
+    抽象方法<br/>若将代码写在initData中, 则是在Fragment真正显示出来后才会去Load(懒加载).<br/>
     
 * **setForceLoad();** <br/>
     忽略isFirstLoad的值，强制刷新数据，前提是Visible & Prepared.<br/>
-    未Visible & Prepared的页面需要注意在RefreshData的时候视图为空的问题,具体请参见实例代码<br/>
+    未Visible & Prepared的页面需要注意在RefreshData的时候视图为空的问题, 具体请参见实例代码<br/>
     搜索关键词 <br/>
     setForceLoad / refreshAllFragment / refreshData 即可找到关键代码
     
